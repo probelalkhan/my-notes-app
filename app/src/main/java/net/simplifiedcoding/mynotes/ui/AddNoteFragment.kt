@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 
 import net.simplifiedcoding.mynotes.R
+import net.simplifiedcoding.mynotes.db.NoteDatabase
 
 
 class AddNoteFragment : Fragment() {
@@ -20,5 +21,11 @@ class AddNoteFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_add_note, container, false)
     }
 
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+//        NoteDatabase(activity!!).getNoteDao().
+    }
 
 }

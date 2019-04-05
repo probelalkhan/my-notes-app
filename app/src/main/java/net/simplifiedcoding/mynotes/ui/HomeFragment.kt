@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fragment_home.*
-
 import net.simplifiedcoding.mynotes.R
+
 
 
 class HomeFragment : Fragment() {
