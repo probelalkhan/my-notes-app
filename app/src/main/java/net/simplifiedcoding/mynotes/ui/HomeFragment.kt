@@ -12,7 +12,7 @@ import net.simplifiedcoding.mynotes.R
 
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : BaseFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
