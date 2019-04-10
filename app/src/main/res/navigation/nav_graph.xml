@@ -11,5 +11,10 @@
     <fragment android:id="@+id/addNoteFragment" android:name="net.simplifiedcoding.mynotes.ui.AddNoteFragment"
               android:label="Add Note" tools:layout="@layout/fragment_add_note">
         <action android:id="@+id/actionSaveNote" app:destination="@id/homeFragment"/>
+        <argument
+                app:argType="net.simplifiedcoding.mynotes.db.Note"
+                android:name="Note"
+                app:nullable="true"
+                android:defaultValue="@null"/>
     </fragment>
 </navigation>

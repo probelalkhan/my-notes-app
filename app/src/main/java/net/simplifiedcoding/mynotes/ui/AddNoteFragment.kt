@@ -21,6 +21,8 @@ import net.simplifiedcoding.mynotes.db.NoteDatabase
 
 class AddNoteFragment : BaseFragment() {
 
+    private var note: Note? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,6 +34,12 @@ class AddNoteFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        arguments?.let {
+            note = AddNoteFragmentArgs.fromBundle(it).note
+            edit_text_title.setText(note?.title)
+            edit_text_note.setText(note?.note)
+        }
 
         button_save.setOnClickListener { view ->
 
@@ -51,10 +59,20 @@ class AddNoteFragment : BaseFragment() {
             }
 
             launch {
-                val note = Note(noteTitle, noteBody)
+
                 context?.let {
-                    NoteDatabase(it).getNoteDao().addNote(note)
-                    it.toast("Note Saved")
+                    val mNote = Note(noteTitle, noteBody)
+
+                    if(note == null){
+                        NoteDatabase(it).getNoteDao().addNote(mNote)
+                        it.toast("Note Saved")
+                    }else{
+                        mNote.id = note!!.id
+                        NoteDatabase(it).getNoteDao().updateNote(mNote)
+                        it.toast("Note Updated")
+                    }
+
+
                     val action = AddNoteFragmentDirections.actionSaveNote()
                     Navigation.findNavController(view).navigate(action)
                 }
