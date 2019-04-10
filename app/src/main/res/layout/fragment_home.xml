@@ -6,6 +6,11 @@
                 tools:context=".ui.HomeFragment">
 
 
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_notes"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:src="@drawable/ic_add"
             android:layout_width="wrap_content"
