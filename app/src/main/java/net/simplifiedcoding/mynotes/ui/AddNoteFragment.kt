@@ -1,19 +1,12 @@
 package net.simplifiedcoding.mynotes.ui
 
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.os.AsyncTask
+import android.app.AlertDialog
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.Fragment
+import android.view.*
 import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fragment_add_note.*
 import kotlinx.coroutines.launch
-
 import net.simplifiedcoding.mynotes.R
 import net.simplifiedcoding.mynotes.db.Note
 import net.simplifiedcoding.mynotes.db.NoteDatabase
@@ -27,6 +20,8 @@ class AddNoteFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        setHasOptionsMenu(true)
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_note, container, false)
     }
@@ -63,10 +58,10 @@ class AddNoteFragment : BaseFragment() {
                 context?.let {
                     val mNote = Note(noteTitle, noteBody)
 
-                    if(note == null){
+                    if (note == null) {
                         NoteDatabase(it).getNoteDao().addNote(mNote)
                         it.toast("Note Saved")
-                    }else{
+                    } else {
                         mNote.id = note!!.id
                         NoteDatabase(it).getNoteDao().updateNote(mNote)
                         it.toast("Note Updated")
@@ -80,5 +75,35 @@ class AddNoteFragment : BaseFragment() {
 
         }
 
+    }
+
+    private fun deleteNote() {
+        AlertDialog.Builder(context).apply {
+            setTitle("Are you sure?")
+            setMessage("You cannot undo this operation")
+            setPositiveButton("Yes") { _, _ ->
+                launch {
+                    NoteDatabase(context).getNoteDao().deleteNote(note!!)
+                    val action = AddNoteFragmentDirections.actionSaveNote()
+                    Navigation.findNavController(view!!).navigate(action)
+                }
+            }
+            setNegativeButton("No") { _, _ ->
+
+            }
+        }.create().show()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.delete -> if (note != null) deleteNote() else context?.toast("Cannot Delete")
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu, menu)
     }
 }
